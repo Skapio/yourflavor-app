@@ -1,4 +1,4 @@
-package com.example.yourflavor.ui.dashboard;
+package com.example.yourflavor.ui.appCollection;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.yourflavor.R;
 
-public class DashboardFragment extends Fragment {
+public class AppCollectionFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private AppCollectionViewModel appCollectionViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        appCollectionViewModel =
+                ViewModelProviders.of(this).get(AppCollectionViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_appcollection, container, false);
+        final TextView textView = root.findViewById(R.id.text_appCollection);
+        appCollectionViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

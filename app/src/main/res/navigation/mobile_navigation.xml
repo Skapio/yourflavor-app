@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
+    android:label="@string/title_appCollection"
     app:startDestination="@+id/navigation_home">
 
     <fragment
@@ -12,12 +13,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.yourflavor.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.yourflavor.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
@@ -25,6 +20,10 @@
     <fragment
         android:id="@+id/navigation_achievement"
         android:name="com.example.yourflavor.ui.achievement.AchievementFragment"
+        android:label="@string/title_achievement" />
+    <fragment
+        android:id="@+id/navigation_appCollection"
+        android:name="com.example.yourflavor.ui.appCollection.AppCollectionFragment"
         android:label="@string/title_achievement" />
     <fragment
         android:id="@+id/navigation_favorite"
