@@ -7,13 +7,13 @@
         android:title="@string/title_appCollection" />
 
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
+        android:id="@+id/navigation_myCollection"
+        android:icon="@drawable/ic_list_black_24dp"
+        android:title="@string/title_myCollection" />
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_add_box_black_24dp"
         android:title="@string/title_home" />
 
     <item
