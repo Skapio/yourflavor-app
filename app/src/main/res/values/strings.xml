@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">YourFlavor</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_achievement">Achievement</string>
+    <string name="title_favorite">Favorite</string>
+</resources>
