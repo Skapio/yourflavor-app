@@ -13,19 +13,23 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_achievement"
-        android:name="com.example.yourflavor.ui.achievement.AchievementFragment"
-        android:label="@string/title_achievement" />
-    <fragment
-        android:id="@+id/navigation_myCollection"
-        android:name="com.example.yourflavor.ui.myCollection.MyCollectionFragment"
-        android:label="@string/title_achievement" />
-    <fragment
         android:id="@+id/navigation_appCollection"
         android:name="com.example.yourflavor.ui.appCollection.AppCollectionFragment"
-        android:label="@string/title_achievement" />
+        android:label="@string/title_appCollection"
+        tools:layout="@layout/fragment_appcollection" />
     <fragment
         android:id="@+id/navigation_favorite"
         android:name="com.example.yourflavor.ui.favorite.FavoriteFragment"
-        android:label="@string/title_favorite" />
+        android:label="@string/title_favorite"
+        tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/navigation_achievement"
+        android:name="com.example.yourflavor.ui.achievement.AchievementFragment"
+        android:label="@string/title_achievement"
+        tools:layout="@layout/fragment_achievement" />
+    <fragment
+        android:id="@+id/navigation_myCollection"
+        android:name="com.example.yourflavor.ui.myCollection.MyCollectionFragment"
+        android:label="@string/title_myCollection"
+        tools:layout="@layout/fragment_mycollection" />
 </navigation>
