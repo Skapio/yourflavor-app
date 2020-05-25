@@ -1,7 +1,5 @@
 package com.example.yourflavor;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.yourflavor.ui.home.HomeFragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,6 +22,9 @@ public class LoginActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         clk = (Button) findViewById(R.id.login);
+
+        email.setText("first@example.com");
+        password.setText("12345");
     }
 
     public void movePage(View v)
