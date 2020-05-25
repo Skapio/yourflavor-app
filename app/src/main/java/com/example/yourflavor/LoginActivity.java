@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(getBaseContext(), "Wrong Name Or Password entered", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Wrong Email Or Password entered", Toast.LENGTH_SHORT).show();
         }
     }
 }
