@@ -11,8 +11,8 @@ import okhttp3.Request;
 public class BasicAuthInterceptor implements Interceptor {
     private String credentials;
 
-    public BasicAuthInterceptor(String username, String password) {
-        this.credentials = Credentials.basic(username, password);
+    public BasicAuthInterceptor(String email, String password) {
+        this.updateCredentials(email, password);
     }
 
     @NotNull
@@ -25,5 +25,9 @@ public class BasicAuthInterceptor implements Interceptor {
                 .build();
 
         return chain.proceed(request);
+    }
+
+    public void updateCredentials(String email, String password) {
+        this.credentials = Credentials.basic(email, password);
     }
 }
