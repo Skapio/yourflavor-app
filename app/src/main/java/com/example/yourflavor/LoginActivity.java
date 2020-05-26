@@ -10,14 +10,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yourflavor.service.LoginService;
-import com.example.yourflavor.util.BasicAuthInterceptor;
+import com.example.yourflavor.util.RetrofitHelper;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
     EditText email, password;
@@ -48,35 +46,26 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String email, String password) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new BasicAuthInterceptor(email, password))
-                .cache(null)
-                .build();
+        Retrofit retrofit = RetrofitHelper.getRetrofit(email, password);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.227:8081")
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        retrofit
+                .create(LoginService.class)
+                .login()
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.code() == 200) {
+                            Intent in = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(in);
+                        } else {
+                            Toast.makeText(getBaseContext(), "Wrong Email Or Password entered", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
-        LoginService loginService = retrofit.create(LoginService.class);
-        Call<Void> call = loginService.login();
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.code() == 200) {
-                    Intent in = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(in);
-                } else {
-                    Toast.makeText(getBaseContext(), "Wrong Email Or Password entered", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable throwable) {
-                Toast.makeText(getApplicationContext(), "login failed: " + throwable.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable throwable) {
+                        Toast.makeText(getApplicationContext(), "login failed: " + throwable.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
