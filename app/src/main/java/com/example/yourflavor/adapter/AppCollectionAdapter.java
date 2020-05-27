@@ -3,20 +3,19 @@ package com.example.yourflavor.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourflavor.R;
 import com.example.yourflavor.entity.AppFoodCollection;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class AppCollectionAdapter extends RecyclerView.Adapter<AppCollectionAdapter.MyViewHolder> {
-
-    private ArrayList<AppFoodCollection> mAppList;
+    private List<AppFoodCollection> mAppList;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         //public ImageView mImageView;
@@ -31,14 +30,14 @@ public class AppCollectionAdapter extends RecyclerView.Adapter<AppCollectionAdap
         }
     }
 
-    public AppCollectionAdapter(ArrayList<AppFoodCollection> appList) {
+    public AppCollectionAdapter(List<AppFoodCollection> appList) {
         mAppList = appList;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
+        CardView v = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cardview_appcollection, parent, false);
 
         MyViewHolder vh = new MyViewHolder(v);

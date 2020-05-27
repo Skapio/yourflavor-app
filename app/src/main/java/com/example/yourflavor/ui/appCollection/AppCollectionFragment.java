@@ -21,7 +21,6 @@ import com.example.yourflavor.entity.AppFoodCollection;
 import com.example.yourflavor.service.AppFoodCollectionService;
 import com.example.yourflavor.util.RetrofitHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -48,6 +47,19 @@ public class AppCollectionFragment extends Fragment {
             }
         });
 
+        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+
+
+
         connectAndGetApiData();
         return root;
     }
@@ -66,7 +78,8 @@ public class AppCollectionFragment extends Fragment {
 
 
                         if (appFoodCollections != null) {
-                            // Tutaj trzeba utworzyć "widok" elementów w aplikacji
+                            mAdapter = new AppCollectionAdapter(appFoodCollections);
+                            recyclerView.setAdapter(mAdapter);
 
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse, size: " + appFoodCollections.size(), Toast.LENGTH_SHORT).show();
                         } else {
