@@ -1,12 +1,9 @@
 package com.example.yourflavor.ui.appCollection;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,9 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourflavor.R;
-import com.example.yourflavor.adapter.AppFoodCollectionAdapter;
+import com.example.yourflavor.adapter.AppCollectionAdapter;
 import com.example.yourflavor.entity.AppFoodCollection;
 import com.example.yourflavor.service.AppFoodCollectionService;
 import com.example.yourflavor.util.RetrofitHelper;
@@ -32,6 +31,9 @@ import retrofit2.Retrofit;
 
 public class AppCollectionFragment extends Fragment {
     private AppCollectionViewModel appCollectionViewModel;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class AppCollectionFragment extends Fragment {
         return root;
     }
 
+
     private void connectAndGetApiData() {
         Retrofit retrofit = RetrofitHelper.getRetrofit();
 
@@ -61,15 +64,9 @@ public class AppCollectionFragment extends Fragment {
                     public void onResponse(Call<List<AppFoodCollection>> call, Response<List<AppFoodCollection>> response) {
                         List<AppFoodCollection> appFoodCollections = response.body();
 
+
                         if (appFoodCollections != null) {
                             // Tutaj trzeba utworzyć "widok" elementów w aplikacji
-
-                            ArrayList<AppFoodCollection> arrayOfAppCollection = new ArrayList<>();
-
-                            AppFoodCollectionAdapter adapter = new AppFoodCollectionAdapter(this, arrayOfAppCollection);
-
-                            ListView listView = new ListView();
-                            listView.setAdapter(adapter);
 
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse, size: " + appFoodCollections.size(), Toast.LENGTH_SHORT).show();
                         } else {
