@@ -1,9 +1,12 @@
 package com.example.yourflavor.ui.appCollection;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,10 +17,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.yourflavor.R;
+import com.example.yourflavor.adapter.AppFoodCollectionAdapter;
 import com.example.yourflavor.entity.AppFoodCollection;
 import com.example.yourflavor.service.AppFoodCollectionService;
 import com.example.yourflavor.util.RetrofitHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -58,6 +63,14 @@ public class AppCollectionFragment extends Fragment {
 
                         if (appFoodCollections != null) {
                             // Tutaj trzeba utworzyć "widok" elementów w aplikacji
+
+                            ArrayList<AppFoodCollection> arrayOfAppCollection = new ArrayList<>();
+
+                            AppFoodCollectionAdapter adapter = new AppFoodCollectionAdapter(this, arrayOfAppCollection);
+
+                            ListView listView = new ListView();
+                            listView.setAdapter(adapter);
+
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse, size: " + appFoodCollections.size(), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse appFoodCollections is null", Toast.LENGTH_SHORT).show();
