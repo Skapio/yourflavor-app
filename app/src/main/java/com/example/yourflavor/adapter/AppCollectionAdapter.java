@@ -25,7 +25,7 @@ public class AppCollectionAdapter extends RecyclerView.Adapter<AppCollectionAdap
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             //mImageView = itemView.findViewById(R.id.imageView);
-            mName = itemView.findViewById(R.id.name);
+            mName = itemView.findViewById(R.id.dishName);
             mCuisine = itemView.findViewById(R.id.cuisine);
         }
     }
