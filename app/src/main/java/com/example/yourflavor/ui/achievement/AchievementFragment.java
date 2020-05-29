@@ -43,13 +43,6 @@ public class AchievementFragment extends Fragment {
         achievementViewModel =
                 ViewModelProviders.of(this).get(AchievementViewModel.class);
         View root = inflater.inflate(R.layout.fragment_achievement, container, false);
-        final TextView textView = root.findViewById(R.id.text_achievement);
-        achievementViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
 
         recyclerView = (RecyclerView) root.findViewById(R.id.recyclerAchievement);
         // use this setting to improve performance if you know that changes

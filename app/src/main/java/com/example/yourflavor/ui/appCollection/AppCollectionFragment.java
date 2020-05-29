@@ -39,13 +39,6 @@ public class AppCollectionFragment extends Fragment {
         appCollectionViewModel =
                 ViewModelProviders.of(this).get(AppCollectionViewModel.class);
         View root = inflater.inflate(R.layout.fragment_appcollection, container, false);
-        final TextView textView = root.findViewById(R.id.text_appCollection);
-        appCollectionViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
 
         recyclerView = (RecyclerView) root.findViewById(R.id.recyclerApp);
         // use this setting to improve performance if you know that changes

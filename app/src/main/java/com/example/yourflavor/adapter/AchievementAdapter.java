@@ -21,7 +21,7 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
     private List<Achievement> mAchievementList;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public ImageView mImageAchievement;
+        // public ImageView mImageAchievement;
         public TextView mAchievementName;
         public TextView mDescription;
 
