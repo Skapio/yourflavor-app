@@ -12,7 +12,7 @@
     android:layout_margin="4dp">
 
     <ImageView
-        android:id="@+id/imageApp"
+        android:id="@+id/cardviewAppcollectionImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:padding="2dp" />
@@ -22,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@id/imageApp"
-        android:layout_toRightOf="@id/imageApp"
+        android:layout_toEndOf="@id/cardviewAppcollectionImage"
+        android:layout_toRightOf="@id/cardviewAppcollectionImage"
         android:text="Name"
             android:textColor="@android:color/black"
             android:textSize="20sp"
@@ -37,8 +37,8 @@
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="3dp"
-            android:layout_toEndOf="@+id/imageApp"
-            android:layout_toRightOf="@+id/imageApp"
+            android:layout_toEndOf="@+id/cardviewAppcollectionImage"
+            android:layout_toRightOf="@+id/cardviewAppcollectionImage"
             android:text="Cuisine"
             android:textSize="15sp" />
 
