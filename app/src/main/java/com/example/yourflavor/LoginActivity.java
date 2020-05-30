@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yourflavor.service.LoginService;
-import com.example.yourflavor.util.RetrofitHelper;
+import com.example.yourflavor.util.ApiHelper;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String email, String password) {
-        Retrofit retrofit = RetrofitHelper.getRetrofit(email, password);
+        Retrofit retrofit = ApiHelper.getRetrofit(email, password);
 
         retrofit
                 .create(LoginService.class)

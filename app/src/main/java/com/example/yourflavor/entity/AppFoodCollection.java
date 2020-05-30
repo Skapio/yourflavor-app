@@ -1,5 +1,7 @@
 package com.example.yourflavor.entity;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +17,5 @@ public class AppFoodCollection {
     private String dishName;
     private String cuisineType;
     private String recipe;
-
+    private List<String> photos;
 }
