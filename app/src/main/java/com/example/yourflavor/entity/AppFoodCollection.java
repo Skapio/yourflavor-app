@@ -15,4 +15,5 @@ public class AppFoodCollection {
     private String dishName;
     private String cuisineType;
     private String recipe;
+
 }
