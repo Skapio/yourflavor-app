@@ -10,9 +10,11 @@ import retrofit2.http.Body;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface PhotoService {
     @Multipart
-    @POST("usr-coll/photo/1")
-    Call<ResponseBody> sendPhoto(@Part MultipartBody.Part file);
+    @POST("usr-coll/photo/{userFoodCollectionId}")
+    Call<ResponseBody> sendPhoto(@Part MultipartBody.Part file, @Path("userFoodCollectionId") Integer userFoodCollectionId);
+
 }

@@ -122,7 +122,6 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
             File file = new File(currentPhotoPath);
 
             try {
@@ -132,26 +131,31 @@ public class HomeFragment extends Fragment {
             } catch (IOException e) {
 
             }
-
-            RequestBody filePart = RequestBody.create(file, MediaType.parse("image/*"));
-
-            MultipartBody.Part body = MultipartBody.Part.createFormData("file", getRandomFileName(), filePart);
-
-            PhotoService photoService = ApiHelper.getRetrofit().create(PhotoService.class);
-
-            Call<ResponseBody> call = photoService.sendPhoto(body);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Log.v("onResponseonResponse", ""+response.code());
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Log.v("onFailureonFailure", ""+t.getLocalizedMessage());
-                }
-            });
         }
+    }
+
+    private void uploadPhoto(String photoPath, Integer userFoodCollectionId) {
+        File file = new File(photoPath);
+        RequestBody filePart = RequestBody.create(file, MediaType.parse("image/*"));
+
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", getRandomFileName(), filePart);
+
+        PhotoService photoService = ApiHelper.getRetrofit().create(PhotoService.class);
+
+        Call<ResponseBody> call = photoService.sendPhoto(body, userFoodCollectionId);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.v("onResponseonResponse", ""+response.code());
+
+                Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.v("onFailureonFailure", ""+t.getLocalizedMessage());
+            }
+        });
     }
 
     String currentPhotoPath;
@@ -221,7 +225,7 @@ public class HomeFragment extends Fragment {
 
                 if (response.isSuccessful())
                 {
-                    Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_LONG).show();
+                    uploadPhoto(currentPhotoPath, response.body().getUserFoodCollectionId());
                 }
                 else {
                     Toast.makeText(getContext(), "Added failed xyz", Toast.LENGTH_LONG).show();
