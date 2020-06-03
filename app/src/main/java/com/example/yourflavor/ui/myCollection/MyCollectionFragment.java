@@ -66,7 +66,7 @@ public class MyCollectionFragment extends Fragment {
 
 
                         if (userFoodCollections != null) {
-                            mAdapter = new UserCollectionAdapter(userFoodCollections);
+                            mAdapter = new UserCollectionAdapter(userFoodCollections, getContext());
                             recyclerView.setAdapter(mAdapter);
 
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse, size: " + userFoodCollections.size(), Toast.LENGTH_SHORT).show();

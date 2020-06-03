@@ -12,6 +12,4 @@ public interface UserFoodCollectionService {
     @GET("usr-coll/list")
     Call<List<UserFoodCollection>> getUserFoodCollectionItems();
 
-    @GET("usr-coll/photo/{userFoodCollectionId}")
-    Call<Set<String>> getPhoto();
 }

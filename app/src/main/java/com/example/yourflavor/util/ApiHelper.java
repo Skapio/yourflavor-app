@@ -2,6 +2,9 @@ package com.example.yourflavor.util;
 
 import android.content.Context;
 
+import com.example.yourflavor.service.HomeService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -14,7 +17,8 @@ public class ApiHelper {
     private static OkHttpClient okHttpClient;
     private static Retrofit retrofit;
 //    private static String host = "http://192.168.0.227:8081/";
-    private static String host = "http://192.168.1.124:8081/";
+//    private static String host = "http://192.168.1.124:8081/";
+      private static String host = "http://192.168.0.136:8081/";
 
     public static synchronized Picasso getPicasso(Context context) {
         return new Picasso
@@ -58,5 +62,23 @@ public class ApiHelper {
 
     public static String getBasePath() {
         return host;
+    }
+
+    public static Retrofit getClient(String host)
+    {
+
+        if (retrofit == null)
+        {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(host)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit;
+    }
+
+    public static HomeService getHomeService()
+    {
+        return ApiHelper.getClient(host).create(HomeService.class);
     }
 }

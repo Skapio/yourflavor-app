@@ -1,7 +1,4 @@
-package com.example.yourflavor.entity;
-
-import java.util.Date;
-import java.util.List;
+package com.example.yourflavor.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,19 +9,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserFoodCollection {
-
-    private Integer userFoodCollectionId;
+public class AddUserFoodCollectionRequest {
 
     private String country;
     private String city;
     private String restaurantName;
     private String restaurantAddress;
-    private Date date;
     private Integer rate;
-    private List<String> photos;
-
-    private Integer userId;
     private Integer appFoodCollectionId;
 
 }
