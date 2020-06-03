@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,16 +34,23 @@ import com.example.yourflavor.service.PhotoService;
 import com.example.yourflavor.service.UserFoodCollectionService;
 import com.example.yourflavor.util.ApiHelper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -97,6 +105,17 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    private String getRandomFileName() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+
+        for(int i=0; i<10; ++i) {
+           int nextChar = random.nextInt() % 74 + 48;
+           sb.append(nextChar);
+        }
+
+        return sb.toString() + ".png";
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -105,28 +124,28 @@ public class HomeFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             imageView.setImageBitmap(imageBitmap);
 
-//            final Bitmap photo = (Bitmap) data.getExtras().get("data");
-//            File file = savebitmap(photo);
-//
-//            PhotoService photoService = ApiHelper.getRetrofit().create(PhotoService.class);
-//
-//            MultipartBody.Part filePart = MultipartBody.Part.createFormData("photo", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-//
-//            Call<Void> call = photoService.getPhoto();
-//            call.enqueue(new Callback<Void>() {
-//                @Override
-//                public void onResponse(Call<Void> call, Response<Void> response) {
-//                    Void json = response.body();
-//                    imageView.setImageBitmap(photo);
-//                    Toast.makeText(getActivity(), "Success",  Toast.LENGTH_SHORT).show();
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Void> call, Throwable t) {
-//                    t.getLocalizedMessage();
-//                }
-//            });
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
 
+            RequestBody filePart = RequestBody.create(byteArray, MediaType.parse("image/*"));
+
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", getRandomFileName(), filePart);
+
+            PhotoService photoService = ApiHelper.getRetrofit().create(PhotoService.class);
+
+            Call<ResponseBody> call = photoService.sendPhoto(body);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Log.v("onResponseonResponse", ""+response.code());
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.v("onFailureonFailure", ""+t.getLocalizedMessage());
+                }
+            });
         }
     }
 
@@ -149,35 +168,9 @@ public class HomeFragment extends Fragment {
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-
-
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
-
-//    private File savebitmap(Bitmap bmp) {
-//        String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-//        OutputStream outStream = null;
-//        // String temp = null;
-//        File file = new File(extStorageDirectory, "temp.png");
-//        if (file.exists()) {
-//            file.delete();
-//            file = new File(extStorageDirectory, "temp.png");
-//
-//        }
-//
-//        try {
-//            outStream = new FileOutputStream(file);
-//            bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-//            outStream.flush();
-//            outStream.close();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//        return file;
-//    }
 
     public AddUserFoodCollectionRequest createRequest(){
         AddUserFoodCollectionRequest addUserFoodCollectionRequest = new AddUserFoodCollectionRequest();
@@ -214,44 +207,4 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-//    private File createImageFile() throws IOException {
-        // Create an image file name
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//        String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//        File image = File.createTempFile(
-//                imageFileName,  /* prefix */
-//                ".jpg",         /* suffix */
-//                storageDir      /* directory */
-//        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-//        currentPhotoPath = image.getAbsolutePath();
-//        return image;
-//    }
-
-//    private void createDirectoryAndSaveFile(Bitmap imageToSave, String fileName) {
-//
-//        File direct = new File(Environment.getExternalStorageDirectory() + "/DirName");
-//
-//        if (!direct.exists()) {
-//            File wallpaperDirectory = new File("/sdcard/DirName/");
-//            wallpaperDirectory.mkdirs();
-//        }
-//
-//        File file = new File("/sdcard/DirName/", fileName);
-//        if (file.exists()) {
-//            file.delete();
-//        }
-//        try {
-//            FileOutputStream out = new FileOutputStream(file);
-//            imageToSave.compress(Bitmap.CompressFormat.JPEG, 100, out);
-//            out.flush();
-//            out.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 }
