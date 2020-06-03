@@ -1,6 +1,7 @@
 package com.example.yourflavor.ui.home;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -116,19 +117,23 @@ public class HomeFragment extends Fragment {
 
         return sb.toString() + ".png";
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageView.setImageBitmap(imageBitmap);
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
+            File file = new File(currentPhotoPath);
 
-            RequestBody filePart = RequestBody.create(byteArray, MediaType.parse("image/*"));
+            try {
+                Bitmap thumbnail = MediaStore.Images.Media.getBitmap(
+                        getContext().getContentResolver(), Uri.fromFile(file));
+                imageView.setImageBitmap(thumbnail);
+            } catch (IOException e) {
+
+            }
+
+            RequestBody filePart = RequestBody.create(file, MediaType.parse("image/*"));
 
             MultipartBody.Part body = MultipartBody.Part.createFormData("file", getRandomFileName(), filePart);
 
@@ -149,26 +154,48 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private File createImageFile(){
-        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/App Folder/";
+    String currentPhotoPath;
 
+    private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "AppName_" + timeStamp;
-
-        String file = dir +imageFileName+ ".jpg" ;
-        File imageFile = new File(file);
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = imageFile.getAbsolutePath();
-
-        return imageFile;
+        currentPhotoPath = image.getAbsolutePath();
+        Log.v("createImageFile", currentPhotoPath);
+        return image;
     }
 
     private void dispatchTakePictureIntent() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//        }
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getContext(),
+                        "com.example.yourflavor",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
         }
     }
 
