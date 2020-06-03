@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yourflavor.R;
 import com.example.yourflavor.adapter.AppCollectionAdapter;
 import com.example.yourflavor.entity.AppFoodCollection;
+import com.example.yourflavor.interfaces.OnShowRecipe;
 import com.example.yourflavor.service.AppFoodCollectionService;
 import com.example.yourflavor.util.ApiHelper;
 
@@ -31,6 +33,8 @@ public class AppCollectionFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         appCollectionViewModel =
@@ -46,12 +50,21 @@ public class AppCollectionFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        // specify an adapter (see also next example)
-
-
-
         connectAndGetApiData();
+
+//        recipeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openDialog();
+//            }
+//        });
+
         return root;
+    }
+
+    public void openDialog(String recipe) {
+        RecipeDialog recipeDialog = new RecipeDialog(recipe);
+        recipeDialog.show(getActivity().getSupportFragmentManager(), "recipe dialog");
     }
 
 
@@ -67,7 +80,7 @@ public class AppCollectionFragment extends Fragment {
                         List<AppFoodCollection> appFoodCollections = response.body();
 
                         if (appFoodCollections != null) {
-                            mAdapter = new AppCollectionAdapter(appFoodCollections, getContext());
+                            mAdapter = new AppCollectionAdapter(appFoodCollections, getContext(), recipe -> openDialog(recipe));
                             recyclerView.setAdapter(mAdapter);
                         } else {
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse appFoodCollections is null", Toast.LENGTH_SHORT).show();

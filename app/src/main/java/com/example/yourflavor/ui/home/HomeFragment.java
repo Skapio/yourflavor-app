@@ -2,6 +2,7 @@ package com.example.yourflavor.ui.home;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -53,7 +55,7 @@ public class HomeFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
 
-    String currentPhotoPath;
+    String mCurrentPhotoPath;
 
     ImageView imageView;
     Button pictureButton, addButton;
@@ -99,65 +101,83 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            imageView.setImageBitmap(imageBitmap);
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
 
-            final Bitmap photo = (Bitmap) data.getExtras().get("data");
-            File file = savebitmap(photo);
-
-            PhotoService photoService = ApiHelper.getRetrofit().create(PhotoService.class);
-
-            MultipartBody.Part filePart = MultipartBody.Part.createFormData("photo", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-
-            Call<Void> call = photoService.getPhoto();
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    Void json = response.body();
-                    imageView.setImageBitmap(photo);
-                    Toast.makeText(getActivity(), "Success",  Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    t.getLocalizedMessage();
-                }
-            });
+//            final Bitmap photo = (Bitmap) data.getExtras().get("data");
+//            File file = savebitmap(photo);
+//
+//            PhotoService photoService = ApiHelper.getRetrofit().create(PhotoService.class);
+//
+//            MultipartBody.Part filePart = MultipartBody.Part.createFormData("photo", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+//
+//            Call<Void> call = photoService.getPhoto();
+//            call.enqueue(new Callback<Void>() {
+//                @Override
+//                public void onResponse(Call<Void> call, Response<Void> response) {
+//                    Void json = response.body();
+//                    imageView.setImageBitmap(photo);
+//                    Toast.makeText(getActivity(), "Success",  Toast.LENGTH_SHORT).show();
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Void> call, Throwable t) {
+//                    t.getLocalizedMessage();
+//                }
+//            });
 
         }
+    }
+
+    private File createImageFile(){
+        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/App Folder/";
+
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "AppName_" + timeStamp;
+
+        String file = dir +imageFileName+ ".jpg" ;
+        File imageFile = new File(file);
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = imageFile.getAbsolutePath();
+
+        return imageFile;
     }
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+
+
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
-    private File savebitmap(Bitmap bmp) {
-        String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-        OutputStream outStream = null;
-        // String temp = null;
-        File file = new File(extStorageDirectory, "temp.png");
-        if (file.exists()) {
-            file.delete();
-            file = new File(extStorageDirectory, "temp.png");
-
-        }
-
-        try {
-            outStream = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-            outStream.flush();
-            outStream.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return file;
-    }
+//    private File savebitmap(Bitmap bmp) {
+//        String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+//        OutputStream outStream = null;
+//        // String temp = null;
+//        File file = new File(extStorageDirectory, "temp.png");
+//        if (file.exists()) {
+//            file.delete();
+//            file = new File(extStorageDirectory, "temp.png");
+//
+//        }
+//
+//        try {
+//            outStream = new FileOutputStream(file);
+//            bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+//            outStream.flush();
+//            outStream.close();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//        return file;
+//    }
 
     public AddUserFoodCollectionRequest createRequest(){
         AddUserFoodCollectionRequest addUserFoodCollectionRequest = new AddUserFoodCollectionRequest();
@@ -209,6 +229,29 @@ public class HomeFragment extends Fragment {
         // Save a file: path for use with ACTION_VIEW intents
 //        currentPhotoPath = image.getAbsolutePath();
 //        return image;
+//    }
+
+//    private void createDirectoryAndSaveFile(Bitmap imageToSave, String fileName) {
+//
+//        File direct = new File(Environment.getExternalStorageDirectory() + "/DirName");
+//
+//        if (!direct.exists()) {
+//            File wallpaperDirectory = new File("/sdcard/DirName/");
+//            wallpaperDirectory.mkdirs();
+//        }
+//
+//        File file = new File("/sdcard/DirName/", fileName);
+//        if (file.exists()) {
+//            file.delete();
+//        }
+//        try {
+//            FileOutputStream out = new FileOutputStream(file);
+//            imageToSave.compress(Bitmap.CompressFormat.JPEG, 100, out);
+//            out.flush();
+//            out.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 //    }
 
 }

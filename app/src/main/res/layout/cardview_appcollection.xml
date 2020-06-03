@@ -80,8 +80,7 @@
             android:layout_marginBottom="9dp"
             android:layout_toStartOf="@+id/buttonAdd"
             android:layout_toLeftOf="@+id/buttonAdd"
-            android:background="@drawable/button_show_recipe"
-            android:text="" />
+            android:background="@drawable/button_show_recipe" />
 
     </RelativeLayout>
 
