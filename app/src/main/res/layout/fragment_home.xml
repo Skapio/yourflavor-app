@@ -1,23 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
+
+    <EditText
+        android:id="@+id/restaurantAddress"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_horizontal" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_below="@+id/cityMy"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:ems="10"
+        android:text="Address" />
+
+    <EditText
+        android:id="@+id/restaurantName"
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/countryMy"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:text="Restaurant" />
+
+    <EditText
+        android:id="@+id/cityMy"
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_view"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:ems="10"
+        android:text="City" />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="61dp"
+        android:layout_marginLeft="61dp"
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="59dp"
+        android:layout_marginRight="59dp"
+        android:layout_x="72dp"
+        android:layout_y="51dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_favorite_black_24dp" />
+
+    <Button
+        android:id="@+id/photo_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="59dp"
+        android:layout_marginLeft="61dp"
+        android:layout_marginBottom="77dp"
+        android:layout_weight="0.35"
+        android:layout_x="53dp"
+        android:layout_y="556dp"
+        android:background="@drawable/button_add_photo" />
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="59dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="75dp"
+        android:layout_weight="0.35"
+        android:layout_x="296dp"
+        android:layout_y="543dp"
+        android:background="@drawable/button_add_collection" />
+
+    <EditText
+        android:id="@+id/countryMy"
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_view"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:text="Country" />
+
+    <RatingBar
+        android:id="@+id/ratingBar3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_view"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="62dp"
+        android:layout_marginLeft="62dp"
+        android:layout_marginTop="160dp"
+        android:stepSize="1.0"/>
+
+
+</RelativeLayout>
