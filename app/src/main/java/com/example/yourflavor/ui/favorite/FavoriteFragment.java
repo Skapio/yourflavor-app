@@ -77,7 +77,7 @@ public class FavoriteFragment extends Fragment {
                         List<AppFoodCollection> appFoodCollections = response.body();
 
                         if (appFoodCollections != null) {
-                            mAdapter = new FavoriteAdapter(appFoodCollections, getContext(), recipe -> openDialog(recipe));
+                            mAdapter = new FavoriteAdapter(appFoodCollections, getContext(), recipe -> openDialog(recipe), id -> deleteFavorite(id));
                             recyclerView.setAdapter(mAdapter);
                         } else {
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse appFoodCollections is null", Toast.LENGTH_SHORT).show();
@@ -86,6 +86,31 @@ public class FavoriteFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<List<AppFoodCollection>> call, Throwable throwable) {
+                        Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse onFailure: " + throwable.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void deleteFavorite(Integer id) {
+        Retrofit retrofit = ApiHelper.getRetrofit();
+
+        retrofit
+                .create(FavoriteService.class)
+                .deleteFavorite(id)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+
+                        if (response.code() == 200) {
+                            connectAndGetApiData();
+                            Toast.makeText(getContext(), "Deleted from favorite", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Deleted filed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable throwable) {
                         Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse onFailure: " + throwable.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });

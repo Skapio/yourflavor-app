@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourflavor.R;
 import com.example.yourflavor.entity.AppFoodCollection;
+import com.example.yourflavor.interfaces.OnDeleteFavorite;
 import com.example.yourflavor.interfaces.OnShowRecipe;
 import com.example.yourflavor.util.ApiHelper;
 import com.squareup.picasso.Picasso;
@@ -24,12 +25,14 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
     private List<AppFoodCollection> mAppList;
     private Context context;
     private OnShowRecipe onShowRecipe;
+    private OnDeleteFavorite onDeleteFavorite;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
         public TextView mName;
         public TextView mCuisine;
         public Button recipeButton;
+        public Button deleteButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -37,13 +40,15 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
             mName = itemView.findViewById(R.id.dishNameFav);
             mCuisine = itemView.findViewById(R.id.cuisineFav);
             recipeButton = itemView.findViewById(R.id.buttonRecipeFav);
+            deleteButton = itemView.findViewById(R.id.buttonDeleteFav);
         }
     }
 
-    public FavoriteAdapter(List<AppFoodCollection> appList, Context context, OnShowRecipe onShowRecipe) {
+    public FavoriteAdapter(List<AppFoodCollection> appList, Context context, OnShowRecipe onShowRecipe, OnDeleteFavorite onDeleteFavorite) {
         mAppList = appList;
         this.context = context;
         this.onShowRecipe = onShowRecipe;
+        this.onDeleteFavorite = onDeleteFavorite;
     }
 
     @NonNull
@@ -73,6 +78,12 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
             @Override
             public void onClick(View v) {
                 onShowRecipe.onShow(currentItem.getRecipe());
+            }
+        });
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDeleteFavorite.onDelete(currentItem.getAppFoodCollectionId());
             }
         });
     }
