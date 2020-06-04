@@ -14,11 +14,11 @@
         android:layout_below="@+id/cityMy"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="21dp"
         android:layout_marginEnd="18dp"
         android:layout_marginRight="18dp"
         android:ems="10"
-        android:text="Address" />
+        android:hint="Address" />
 
     <EditText
         android:id="@+id/restaurantName"
@@ -29,9 +29,9 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="19dp"
         android:layout_marginLeft="19dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
-        android:text="Restaurant" />
+        android:hint="Restaurant" />
 
     <EditText
         android:id="@+id/cityMy"
@@ -40,11 +40,11 @@
         android:layout_below="@+id/image_view"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="9dp"
         android:layout_marginEnd="18dp"
         android:layout_marginRight="18dp"
         android:ems="10"
-        android:text="City" />
+        android:hint="City" />
 
     <ImageView
         android:id="@+id/image_view"
@@ -57,24 +57,24 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="61dp"
         android:layout_marginLeft="61dp"
-        android:layout_marginTop="61dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="59dp"
         android:layout_marginRight="59dp"
         android:layout_x="72dp"
         android:layout_y="51dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_favorite_black_24dp" />
+        android:rotation="90"
+        android:scaleType="centerCrop" />
 
     <Button
         android:id="@+id/photo_button"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_below="@+id/autoDishName"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="59dp"
+        android:layout_marginStart="57dp"
         android:layout_marginLeft="61dp"
-        android:layout_marginBottom="77dp"
+        android:layout_marginTop="-4dp"
         android:layout_weight="0.35"
         android:layout_x="53dp"
         android:layout_y="556dp"
@@ -84,12 +84,12 @@
         android:id="@+id/save_button"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_below="@+id/autoDishName"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="59dp"
+        android:layout_marginTop="-6dp"
+        android:layout_marginEnd="65dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="75dp"
         android:layout_weight="0.35"
         android:layout_x="296dp"
         android:layout_y="543dp"
@@ -102,11 +102,11 @@
         android:layout_below="@+id/image_view"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginLeft="21dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
-        android:text="Country" />
+        android:hint="Country" />
 
     <RatingBar
         android:id="@+id/ratingBar3"
@@ -117,8 +117,22 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="62dp"
         android:layout_marginLeft="62dp"
-        android:layout_marginTop="160dp"
-        android:stepSize="1.0"/>
+        android:layout_marginTop="124dp"
+        android:stepSize="1.0" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoDishName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ratingBar3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginTop="5dp"
+        android:hint="Choose type of dish"
+        android:completionThreshold="1"
+        />
 
 
 </RelativeLayout>

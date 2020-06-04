@@ -30,22 +30,21 @@
             android:padding="2dp" />
 
         <TextView
-            android:id="@+id/cityFav"
+            android:id="@+id/dishNameFav"
             android:layout_width="146dp"
             android:layout_height="31dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="23dp"
-            android:layout_marginRight="23dp"
-            android:layout_marginBottom="7dp"
+            android:layout_marginEnd="83dp"
+            android:layout_marginRight="83dp"
+            android:layout_marginBottom="8dp"
             android:gravity="center_horizontal"
-            android:text="City"
             android:textAlignment="center"
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/countryFav"
+            android:id="@+id/cuisineFav"
             android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -53,17 +52,28 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="41dp"
-            android:layout_marginLeft="41dp"
-            android:layout_marginEnd="227dp"
-            android:layout_marginRight="227dp"
-            android:layout_marginBottom="11dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginLeft="21dp"
+            android:layout_marginEnd="247dp"
+            android:layout_marginRight="247dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center_horizontal"
-            android:text="Country"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonRecipeFav"
+            android:layout_width="43dp"
+            android:layout_height="37dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/button_show_recipe" />
 
     </RelativeLayout>
 

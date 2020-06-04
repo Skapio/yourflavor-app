@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yourflavor.R;
 import com.example.yourflavor.adapter.AchievementAdapter;
 import com.example.yourflavor.entity.Achievement;
+import com.example.yourflavor.entity.Achievements;
 import com.example.yourflavor.service.AchievementService;
 import com.example.yourflavor.util.ApiHelper;
 
@@ -60,24 +61,23 @@ public class AchievementFragment extends Fragment {
         retrofit
                 .create(AchievementService.class)
                 .getAchievementItems()
-                .enqueue(new Callback<List<Achievement>>() {
+                .enqueue(new Callback<Achievements>() {
                     @Override
-                    public void onResponse(Call<List<Achievement>> call, Response<List<Achievement>> response) {
-                        List<Achievement> achievements = response.body();
+                    public void onResponse(Call<Achievements> call, Response<Achievements> response) {
+                        Achievements achievements = response.body();
 
 
                         if (achievements != null) {
                             mAdapter = new AchievementAdapter(achievements);
                             recyclerView.setAdapter(mAdapter);
 
-                            Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse, size: " + achievements.size(), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse appFoodCollections is null", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<List<Achievement>> call, Throwable throwable) {
+                    public void onFailure(Call<Achievements> call, Throwable throwable) {
                         Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse onFailure: " + throwable.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
