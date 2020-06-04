@@ -10,4 +10,5 @@ import retrofit2.http.GET;
 public interface AppFoodCollectionService {
     @GET("app/test2")
     Call<List<AppFoodCollection>> getAppFoodCollectionItems();
+
 }

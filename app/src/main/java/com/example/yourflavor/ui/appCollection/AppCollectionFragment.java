@@ -18,6 +18,7 @@ import com.example.yourflavor.adapter.AppCollectionAdapter;
 import com.example.yourflavor.entity.AppFoodCollection;
 import com.example.yourflavor.interfaces.OnShowRecipe;
 import com.example.yourflavor.service.AppFoodCollectionService;
+import com.example.yourflavor.service.FavoriteService;
 import com.example.yourflavor.util.ApiHelper;
 
 import java.util.List;
@@ -61,6 +62,30 @@ public class AppCollectionFragment extends Fragment {
         recipeDialog.show(getActivity().getSupportFragmentManager(), "recipe dialog");
     }
 
+    public void addFavorite(Integer id) {
+        Retrofit retrofit = ApiHelper.getRetrofit();
+
+        retrofit
+                .create(FavoriteService.class)
+                .addFavorite(id)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+
+                        if (response.code() == 200) {
+                            Toast.makeText(getContext(), "Added to favorite", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Added filed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable throwable) {
+                        Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse onFailure: " + throwable.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 
     private void connectAndGetApiData() {
         Retrofit retrofit = ApiHelper.getRetrofit();
@@ -74,7 +99,7 @@ public class AppCollectionFragment extends Fragment {
                         List<AppFoodCollection> appFoodCollections = response.body();
 
                         if (appFoodCollections != null) {
-                            mAdapter = new AppCollectionAdapter(appFoodCollections, getContext(), recipe -> openDialog(recipe));
+                            mAdapter = new AppCollectionAdapter(appFoodCollections, getContext(), recipe -> openDialog(recipe), id -> addFavorite(id));
                             recyclerView.setAdapter(mAdapter);
                         } else {
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse appFoodCollections is null", Toast.LENGTH_SHORT).show();
