@@ -1,6 +1,6 @@
 package com.example.yourflavor.entity;
 
-import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserAchievement {
-
-    private Integer userAchievementId;
-    private Integer achievementId;
-    private Integer userId;
-    private Date date;
-
+public class Achievements {
+    private List<Achievement> achievements;
+    private List<UserAchievement> userAchievements;
 }

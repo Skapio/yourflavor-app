@@ -1,9 +1,11 @@
 package com.example.yourflavor.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,28 +14,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourflavor.R;
 import com.example.yourflavor.entity.Achievement;
+import com.example.yourflavor.entity.Achievements;
 import com.example.yourflavor.entity.AppFoodCollection;
+import com.example.yourflavor.entity.UserAchievement;
 
 import java.util.List;
 
 public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.MyViewHolder> {
 
-    private List<Achievement> mAchievementList;
+    private Achievements achievements;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // public ImageView mImageAchievement;
+
         public TextView mAchievementName;
         public TextView mDescription;
+        public RelativeLayout achievement;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            // mImageAchievement = itemView.findViewById(R.id.imageAchievement);
+
             mAchievementName = itemView.findViewById(R.id.achievementName);
             mDescription = itemView.findViewById(R.id.description);
+            achievement = itemView.findViewById(R.id.relativeAchievement);
         }
     }
 
-    public AchievementAdapter(List<Achievement> achievementList) { mAchievementList = achievementList; }
+    public AchievementAdapter(Achievements achievements) { this.achievements = achievements; }
 
     @NonNull
     @Override
@@ -45,9 +51,26 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
         return vh;
     }
 
+    private UserAchievement findUserAchievement(List<UserAchievement> achievements, Integer id) {
+        for (UserAchievement userAchievement : achievements) {
+            if (userAchievement.getAchievementId().equals(id)) {
+                return userAchievement;
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Achievement currentItem = mAchievementList.get(position);
+        Achievement currentItem = achievements.getAchievements().get(position);
+        UserAchievement userAchievement = findUserAchievement(achievements.getUserAchievements(), currentItem.getAchievementId());
+
+        if (userAchievement != null) {
+            holder.achievement.setBackgroundColor(Color.GREEN);
+        } else {
+            holder.achievement.setBackgroundColor(Color.GRAY);
+        }
 
         // holder.mImageAchievement.setImageResource();
         holder.mAchievementName.setText(currentItem.getName());
@@ -55,5 +78,5 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
     }
 
     @Override
-    public int getItemCount() { return mAchievementList.size(); }
+    public int getItemCount() { return achievements.getAchievements().size(); }
 }

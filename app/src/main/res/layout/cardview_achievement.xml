@@ -7,6 +7,7 @@
     android:layout_marginBottom="4dp">
 
     <RelativeLayout
+        android:id="@+id/relativeAchievement"
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:layout_margin="4dp">
