@@ -52,12 +52,6 @@ public class AppCollectionFragment extends Fragment {
 
         connectAndGetApiData();
 
-//        recipeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openDialog();
-//            }
-//        });
 
         return root;
     }
