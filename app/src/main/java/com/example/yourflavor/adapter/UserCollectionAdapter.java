@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,33 +14,47 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourflavor.R;
 import com.example.yourflavor.entity.AppFoodCollection;
+import com.example.yourflavor.entity.UserAchievement;
 import com.example.yourflavor.entity.UserFoodCollection;
+import com.example.yourflavor.interfaces.OnDeleteFavorite;
+import com.example.yourflavor.interfaces.OnDeleteMyCollection;
 import com.example.yourflavor.util.ApiHelper;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class UserCollectionAdapter extends RecyclerView.Adapter<UserCollectionAdapter.MyViewHolder> {
 
     private List<UserFoodCollection> mUserList;
     private Context context;
+    private OnDeleteMyCollection onDeleteMyCollection;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
         public TextView mCountry;
         public TextView mCity;
+        public TextView mRestaurantName;
+        public TextView mRestaurantAddress;
+        public TextView mDate;
+        public Button deleteButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.cardviewFoodcollectionImage);
             mCountry = itemView.findViewById(R.id.country);
             mCity = itemView.findViewById(R.id.city);
+            mRestaurantName = itemView.findViewById(R.id.restaurantNameMy);
+            mRestaurantAddress = itemView.findViewById(R.id.restaurantAddressMy);
+            mDate = itemView.findViewById(R.id.dateMy);
+            deleteButton = itemView.findViewById(R.id.buttonDeleteMy);
         }
     }
 
-    public UserCollectionAdapter(List<UserFoodCollection> userList, Context context) {
+    public UserCollectionAdapter(List<UserFoodCollection> userList, Context context, OnDeleteMyCollection onDeleteMyCollection) {
         mUserList = userList;
         this.context = context;
+        this.onDeleteMyCollection = onDeleteMyCollection;
     }
 
     @NonNull
@@ -57,6 +72,9 @@ public class UserCollectionAdapter extends RecyclerView.Adapter<UserCollectionAd
         UserFoodCollection currentItem = mUserList.get(position);
 
 
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE d MMM yyyy"); // Set your date format
+        String currentData = sdf.format(currentItem.getDate()); // Get Date String according to date format
+
         //Loading image using Picasso
         String imageUrl = createImageUrl(currentItem);
         Picasso picasso = ApiHelper.getPicasso(context);
@@ -64,6 +82,16 @@ public class UserCollectionAdapter extends RecyclerView.Adapter<UserCollectionAd
 
         holder.mCountry.setText(currentItem.getCountry());
         holder.mCity.setText(currentItem.getCity());
+        holder.mRestaurantName.setText(currentItem.getRestaurantName());
+        holder.mRestaurantAddress.setText(currentItem.getRestaurantAddress());
+        holder.mDate.setText(currentData);
+
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDeleteMyCollection.onDelete(currentItem.getUserFoodCollectionId());
+            }
+        });
     }
 
     @Override

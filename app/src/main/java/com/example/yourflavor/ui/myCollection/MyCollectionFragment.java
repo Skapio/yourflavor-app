@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yourflavor.R;
 import com.example.yourflavor.adapter.UserCollectionAdapter;
 import com.example.yourflavor.entity.UserFoodCollection;
+import com.example.yourflavor.service.FavoriteService;
 import com.example.yourflavor.service.UserFoodCollectionService;
 import com.example.yourflavor.util.ApiHelper;
 
@@ -66,7 +67,7 @@ public class MyCollectionFragment extends Fragment {
 
 
                         if (userFoodCollections != null) {
-                            mAdapter = new UserCollectionAdapter(userFoodCollections, getContext());
+                            mAdapter = new UserCollectionAdapter(userFoodCollections, getContext(), id -> deleteMyCollection(id));
                             recyclerView.setAdapter(mAdapter);
 
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse, size: " + userFoodCollections.size(), Toast.LENGTH_SHORT).show();
@@ -77,6 +78,31 @@ public class MyCollectionFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<List<UserFoodCollection>> call, Throwable throwable) {
+                        Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse onFailure: " + throwable.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void deleteMyCollection(Integer id) {
+        Retrofit retrofit = ApiHelper.getRetrofit();
+
+        retrofit
+                .create(UserFoodCollectionService.class)
+                .deleteMyCollection(id)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+
+                        if (response.code() == 200) {
+                            connectAndGetApiData();
+                            Toast.makeText(getContext(), "Deleted from collection", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Deleted filed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable throwable) {
                         Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse onFailure: " + throwable.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });

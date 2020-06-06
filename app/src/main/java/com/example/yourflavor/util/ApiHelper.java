@@ -17,8 +17,8 @@ public class ApiHelper {
     private static OkHttpClient okHttpClient;
     private static Retrofit retrofit;
 //    private static String host = "http://192.168.0.227:8081/";
-//    private static String host = "http://192.168.1.124:8081/";
-      private static String host = "http://192.168.0.136:8081/";
+    private static String host = "http://192.168.1.124:8081/";
+//      private static String host = "http://192.168.0.136:8081/";
 
     public static synchronized Picasso getPicasso(Context context) {
         return new Picasso

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
-    android:layout_marginBottom="4dp">
+    android:layout_marginBottom="4dp"
+    android:layout_marginTop="55dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,20 +14,18 @@
 
         <ImageView
             android:id="@+id/cardviewFavorite"
-            android:layout_width="386dp"
-            android:layout_height="140dp"
+            android:layout_width="wrap_content"
+            android:layout_height="108dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginRight="9dp"
-            android:layout_marginBottom="47dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginLeft="38dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
             android:padding="2dp" />
 
         <TextView
@@ -36,27 +35,27 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="124dp"
-            android:layout_marginRight="124dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginEnd="122dp"
+            android:layout_marginRight="122dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center_horizontal"
             android:textAlignment="center"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/cuisineFav"
-            android:layout_width="135dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="21dp"
-            android:layout_marginLeft="21dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginLeft="9dp"
             android:layout_marginEnd="247dp"
             android:layout_marginRight="247dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
             android:textAlignment="center"
             android:textColor="@android:color/black"
