@@ -1,12 +1,15 @@
 package com.example.yourflavor.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -14,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourflavor.R;
 import com.example.yourflavor.entity.AppFoodCollection;
-import com.example.yourflavor.entity.UserAchievement;
 import com.example.yourflavor.entity.UserFoodCollection;
 import com.example.yourflavor.interfaces.OnDeleteFavorite;
 import com.example.yourflavor.interfaces.OnDeleteMyCollection;
@@ -89,7 +91,27 @@ public class UserCollectionAdapter extends RecyclerView.Adapter<UserCollectionAd
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onDeleteMyCollection.onDelete(currentItem.getUserFoodCollectionId());
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                builder.setTitle("Are you sure?");
+                builder.setMessage("Do you wanna delete the item?");
+
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onDeleteMyCollection.onDelete(currentItem.getUserFoodCollectionId());
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context,
+                                "No Button Clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }
@@ -108,4 +130,5 @@ public class UserCollectionAdapter extends RecyclerView.Adapter<UserCollectionAd
 
         return ApiHelper.getBasePath() + "usr-coll/photo/" + userFoodCollection.getUserFoodCollectionId() + "/" + photo;
     }
+
 }
