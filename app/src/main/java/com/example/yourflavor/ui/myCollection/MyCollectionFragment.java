@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yourflavor.R;
 import com.example.yourflavor.adapter.UserCollectionAdapter;
 import com.example.yourflavor.entity.UserFoodCollection;
+import com.example.yourflavor.request.AddUserFoodCollectionRequest;
 import com.example.yourflavor.service.FavoriteService;
 import com.example.yourflavor.service.UserFoodCollectionService;
 import com.example.yourflavor.util.ApiHelper;
@@ -32,6 +34,11 @@ public class MyCollectionFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    EditText editCountry;
+    EditText editCity;
+    EditText editRestaurantName;
+    EditText editRestaurantAddress;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
