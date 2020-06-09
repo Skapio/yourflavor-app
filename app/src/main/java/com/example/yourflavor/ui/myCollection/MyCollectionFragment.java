@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yourflavor.R;
 import com.example.yourflavor.adapter.UserCollectionAdapter;
 import com.example.yourflavor.entity.UserFoodCollection;
-import com.example.yourflavor.service.FavoriteService;
+import com.example.yourflavor.request.UpdateUserFoodCollectionRequest;
 import com.example.yourflavor.service.UserFoodCollectionService;
 import com.example.yourflavor.util.ApiHelper;
 
@@ -32,6 +33,11 @@ public class MyCollectionFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    EditText editCountry;
+    EditText editCity;
+    EditText editRestaurantName;
+    EditText editRestaurantAddress;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +73,7 @@ public class MyCollectionFragment extends Fragment {
 
 
                         if (userFoodCollections != null) {
-                            mAdapter = new UserCollectionAdapter(userFoodCollections, getContext(), id -> deleteMyCollection(id));
+                            mAdapter = new UserCollectionAdapter(userFoodCollections, getContext(), id -> deleteMyCollection(id), (id, request) -> updateMyCollection(id, request));
                             recyclerView.setAdapter(mAdapter);
 
                             Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse, size: " + userFoodCollections.size(), Toast.LENGTH_SHORT).show();
@@ -79,6 +85,30 @@ public class MyCollectionFragment extends Fragment {
                     @Override
                     public void onFailure(Call<List<UserFoodCollection>> call, Throwable throwable) {
                         Toast.makeText(getContext(), "AppCollectionFragment connectAndGetApiData onResponse onFailure: " + throwable.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void updateMyCollection(Integer id, UpdateUserFoodCollectionRequest updateUserFoodCollectionRequest) {
+        Retrofit retrofit = ApiHelper.getRetrofit();
+
+        retrofit
+                .create(UserFoodCollectionService.class)
+                .updateUserFoodCollectionItems(id, updateUserFoodCollectionRequest)
+                .enqueue(new Callback<UserFoodCollection>() {
+                    @Override
+                    public void onResponse(Call<UserFoodCollection> call, Response<UserFoodCollection> response) {
+
+                        if (response.code() == 200) {
+//                            connectAndGetApiData();
+                            Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
+                        } else {
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserFoodCollection> call, Throwable throwable) {
+                        Toast.makeText(getContext(), "AppCollectionFragment updateMyCollection onResponse onFailure: " + throwable.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

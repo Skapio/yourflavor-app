@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -68,10 +69,14 @@ public class HomeFragment extends Fragment {
     String mCurrentPhotoPath;
 
     ImageView imageView;
-    Button pictureButton, addButton;
-    EditText mCountry, mCity, mRestaurantName, mRestaurantAddress;
+    Button pictureButton;
+    Button addButton;
+    EditText mCountry;
+    EditText mCity;
+    EditText mRestaurantName;
+    EditText mRestaurantAddress;
     RatingBar mRatingBar;
-    AutoCompleteTextView mDishName;
+
 
     private HomeService mHomeService;
 
@@ -89,7 +94,6 @@ public class HomeFragment extends Fragment {
         mRestaurantName = (EditText) root.findViewById(R.id.restaurantName);
         mRestaurantAddress = (EditText) root.findViewById(R.id.restaurantAddress);
         mRatingBar = (RatingBar) root.findViewById(R.id.ratingBar3);
-        mDishName = (AutoCompleteTextView) root.findViewById(R.id.autoDishName);
 
         mHomeService = ApiHelper.getHomeService();
 
