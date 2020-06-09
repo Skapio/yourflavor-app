@@ -17,12 +17,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourflavor.R;
-import com.example.yourflavor.entity.AppFoodCollection;
 import com.example.yourflavor.entity.UserFoodCollection;
-import com.example.yourflavor.interfaces.OnDeleteFavorite;
 import com.example.yourflavor.interfaces.OnDeleteMyCollection;
 import com.example.yourflavor.interfaces.OnUpdateMyCollection;
-import com.example.yourflavor.request.AddUserFoodCollectionRequest;
+import com.example.yourflavor.request.UpdateUserFoodCollectionRequest;
 import com.example.yourflavor.util.ApiHelper;
 import com.squareup.picasso.Picasso;
 
@@ -73,34 +71,61 @@ public class UserCollectionAdapter extends RecyclerView.Adapter<UserCollectionAd
             cardView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-
-                    mCountry.setVisibility(View.GONE);
-                    editCountry = itemView.findViewById(R.id.editCountry);
-                    editCountry.setVisibility(View.VISIBLE);
-
-                    mCity.setVisibility(View.GONE);
-                    editCity = itemView.findViewById(R.id.editCity);
-                    editCity.setVisibility(View.VISIBLE);
-
-                    mRestaurantName.setVisibility(View.GONE);
-                    editRestaurantName = itemView.findViewById(R.id.editRestaurantNameMy);
-                    editRestaurantName.setVisibility(View.VISIBLE);
-
-                    mRestaurantAddress.setVisibility(View.GONE);
-                    editRestaurantAddress = itemView.findViewById(R.id.editRestaurantAddressMy);
-                    editRestaurantAddress.setVisibility(View.VISIBLE);
+                    showEditForm();
 
                     return false;
                 }
             });
 
         }
+
+        public void showEditForm() {
+            mCountry.setVisibility(View.GONE);
+            editCountry.setVisibility(View.VISIBLE);
+            editCountry.setText(mCountry.getText());
+
+            mCity.setVisibility(View.GONE);
+            editCity.setVisibility(View.VISIBLE);
+            editCity.setText(mCity.getText());
+
+            mRestaurantName.setVisibility(View.GONE);
+            editRestaurantName.setVisibility(View.VISIBLE);
+            editRestaurantName.setText(mRestaurantName.getText());
+
+            mRestaurantAddress.setVisibility(View.GONE);
+            editRestaurantAddress.setVisibility(View.VISIBLE);
+            editRestaurantAddress.setText(mRestaurantAddress.getText());
+        }
+
+        public void hideEditForm(boolean updateValues) {
+            mCountry.setVisibility(View.VISIBLE);
+            editCountry.setVisibility(View.GONE);
+
+            mCity.setVisibility(View.VISIBLE);
+            editCity.setVisibility(View.GONE);
+
+            mRestaurantName.setVisibility(View.VISIBLE);
+            editRestaurantName.setVisibility(View.GONE);
+
+            mRestaurantAddress.setVisibility(View.VISIBLE);
+            editRestaurantAddress.setVisibility(View.GONE);
+
+            if (updateValues) {
+                mCountry.setText(editCountry.getText());
+                mCity.setText(editCity.getText());
+                mRestaurantName.setText(editRestaurantName.getText());
+                mRestaurantAddress.setText(editRestaurantAddress.getText());
+            }
+        }
     }
 
-    public UserCollectionAdapter(List<UserFoodCollection> userList, Context context, OnDeleteMyCollection onDeleteMyCollection) {
+
+
+    public UserCollectionAdapter(List<UserFoodCollection> userList, Context context, OnDeleteMyCollection onDeleteMyCollection, OnUpdateMyCollection onUpdateMyCollection) {
         mUserList = userList;
         this.context = context;
         this.onDeleteMyCollection = onDeleteMyCollection;
+        this.onUpdateMyCollection = onUpdateMyCollection;
     }
 
     @NonNull
@@ -116,7 +141,6 @@ public class UserCollectionAdapter extends RecyclerView.Adapter<UserCollectionAd
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         UserFoodCollection currentItem = mUserList.get(position);
-
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE d MMM yyyy"); // Set your date format
         String currentData = sdf.format(currentItem.getDate()); // Get Date String according to date format
@@ -152,18 +176,16 @@ public class UserCollectionAdapter extends RecyclerView.Adapter<UserCollectionAd
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context,
-                                    "Success", Toast.LENGTH_SHORT).show();
-
-                            onUpdateMyCollection.onUpdate(currentItem.getUserFoodCollectionId());
+                            UpdateUserFoodCollectionRequest request = new UpdateUserFoodCollectionRequest(sEditCountry, sEditCity, sEditRestaurantName, sEditRestaurantAddress, currentItem.getRate(), currentItem.getAppFoodCollectionId());
+                            onUpdateMyCollection.onUpdate(currentItem.getUserFoodCollectionId(), request);
+                            holder.hideEditForm(true);
                         }
                     });
 
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context,
-                                    "No Button Clicked", Toast.LENGTH_SHORT).show();
+                            holder.hideEditForm(false);
                         }
                     });
                     AlertDialog dialog = builder.create();

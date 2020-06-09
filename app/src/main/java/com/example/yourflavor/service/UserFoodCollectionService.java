@@ -1,10 +1,9 @@
 package com.example.yourflavor.service;
 
 import com.example.yourflavor.entity.UserFoodCollection;
-import com.example.yourflavor.request.AddUserFoodCollectionRequest;
+import com.example.yourflavor.request.UpdateUserFoodCollectionRequest;
 
 import java.util.List;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,6 +19,6 @@ public interface UserFoodCollectionService {
     @DELETE("usr-coll/delete/{id}")
     Call<Void> deleteMyCollection(@Path("id") Integer id);
 
-    @POST
-    Call<UserFoodCollection> updateUserFoodCollectionItems(@Body AddUserFoodCollectionRequest addUserFoodCollectionRequest);
+    @POST("usr-coll/update/{id}")
+    Call<UserFoodCollection> updateUserFoodCollectionItems(@Path("id") Integer id, @Body UpdateUserFoodCollectionRequest updateUserFoodCollectionRequest);
 }
